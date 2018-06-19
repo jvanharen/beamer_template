@@ -1,0 +1,13 @@
+\begin{frame}
+  \addLogo{\logoXPos}{\logoYPos}{\logoSize}{\logoPath}
+  \titlepage
+  \thispagestyle{empty}
+\end{frame}
+
+\AtBeginSection[]{}
+
+\AtBeginSection[]{
+\begin{frame}{Table of contents}
+  \setbeamertemplate{section in toc}[sections numbered roman]
+  \tableofcontents[currentsection]
+\end{frame}}

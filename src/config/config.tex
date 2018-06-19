@@ -1,0 +1,74 @@
+\usetheme[progressbar=frametitle, background=light]{metropolis}
+
+% ### Define colors.
+\definecolor{ocre}{RGB}{70,63,50}
+\definecolor{mDarkTeal}{HTML}{334D5C}
+\definecolor{m2}{RGB}{0,129,168}
+\definecolor{m3}{HTML}{EFC94C}
+\definecolor{m4}{HTML}{E27A3F}
+\definecolor{mLightBrown}{HTML}{DF5A49}
+\definecolor{mLightGreen}{HTML}{14B03D}
+
+% ### Packages.
+\usepackage{appendixnumberbeamer}
+\usepackage{booktabs}
+\usepackage[scale=2]{ccicons}
+\usepackage{pgfplots}
+\usepackage{xspace}
+\usepackage{mathpazo}
+\usepackage{pgf}
+\usepackage{tikz}
+\usepackage{color}
+\usepackage{calc}
+\usepackage{ragged2e}
+\usepackage{graphicx}
+\usepackage[textfont=it]{caption}
+\usepackage{subcaption}
+\usepackage{smartdiagram}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{dsfont}
+\usepackage{nicefrac}
+\usepackage{tabularx}
+\usepackage{multimedia}
+\usepackage[english]{babel}
+\usepgfplotslibrary{dateplot}
+
+% ### Bibliography.
+\usepackage[style=src/config/custom-numeric-comp,citestyle=numeric,
+            sorting=none,sortcites=true,autopunct=true,babel=hyphen,
+            hyperref=true,abbreviate=false,backref=true,backend=biber,
+            maxbibnames=99,date=year,isbn=false,autocite=superscript]{biblatex}
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+\AtEveryCitekey{~~}
+\renewcommand*{\bibfont}{\scriptsize}
+\addbibresource{src/biblio.bib}
+\def\UrlFont{\normalfont}
+\DeclareFieldFormat{doi}{~\url{http://dx.doi.org/#1}}
+\DeclareFieldFormat{url}{~\url{#1}}
+\DeclareFieldFormat*{pages}{#1}
+\DeclareFieldFormat*{year}{(#1)}
+\DeclareFieldFormat*{date}{(#1)}
+\DeclareFieldFormat*{number}{(#1)}
+\DeclareFieldFormat*{journaltitle}{\textit{#1}}
+\DeclareFieldFormat*{booktitle}{#1}
+\DeclareFieldFormat*{citetitle}{#1}
+\DeclareFieldFormat*{title}{#1}
+\renewbibmacro{in:}{}
+\renewbibmacro{mkbibquote}{}
+
+\defbeamertemplate{section in toc}{sections numbered roman}{\leavevmode\MakeUppercase{\romannumeral\inserttocsectionnumber})\ \inserttocsection\par}
+\include{src/config/footer}
+\newcommand{\alertr}[1]{\textcolor{mLightBrown}{#1}}
+\newcommand{\alertb}[1]{\textcolor{m2}{#1}}
+\RequirePackage[framemethod=default]{mdframed}
+\newmdenv[skipabove=7pt,skipbelow=7pt,rightline=false,leftline=true,topline=false,bottomline=false,linecolor=mDarkTeal,backgroundcolor=mDarkTeal!10,
+linecolor=mDarkTeal,innerleftmargin=0pt,innerrightmargin=0pt,innertopmargin=0pt,leftmargin=0cm,rightmargin=0cm,linewidth=2pt,innerbottommargin=0pt,
+fontcolor=mDarkTeal]{tabBox}
+
+\newcommand{\addLogo}[4]{\tikz [remember picture,overlay]
+\node at ([xshift=#1,yshift=#2]current page.north east)
+{\includegraphics[height=#3\textheight]{#4}};}
