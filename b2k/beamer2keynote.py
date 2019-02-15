@@ -3,6 +3,7 @@ import glob
 import PyPDF2
 import argparse
 import subprocess
+import pdftotext
 
 
 def recursive_walk(lst, path):
@@ -37,13 +38,10 @@ def get_movie_page(input_pdf_path, movie_list):
     movie_dict = {}
     for input_pdf in glob.glob(os.path.join(input_pdf_path, '*.pdf')):
         with open(input_pdf, "rb") as input_stream:
-            input_pdf_obj = PyPDF2.PdfFileReader(input_stream)
-            nb = input_pdf_obj.getNumPages()
-            for i in range(nb):
-                pageObj = input_pdf_obj.getPage(i)
-                text = pageObj.extractText()
+            input_pdf_obj = pdftotext.PDF(input_stream)
+            for p in input_pdf_obj:
                 for j, mov in enumerate(movie_list):
-                    if mov.split('/')[-1] in text:
+                    if mov.split('/')[-1] in p:
                         movie_dict[int(input_pdf.split(
                             '/')[-1].split('.')[0]) + 1] = mov
     return movie_dict
