@@ -27,10 +27,27 @@ on run argv
 			set docWidth to the width
 			set docHeight to the height
 
+			set movWidth to Â
+			(do shell script "mdls -raw -name kMDItemPixelWidth " & Â
+				quoted form of POSIX path of mov_file) as integer
+			set movHeight to Â
+			(do shell script "mdls -raw -name kMDItemPixelHeight " & Â
+				quoted form of POSIX path of mov_file) as integer
+
+			set ratioWidth to the (movWidth/docWidth)
+			set ratioHeight to the (movHeight/(docHeight*0.8))
+			if ratioWidth is greater than or equal to ratioHeight then
+				set newMovWidth to the (movWidth/ratioWidth)
+				set newMovHeight to the (movHeight/ratioWidth)
+			else
+				set newMovWidth to the (movWidth/ratioHeight)
+				set newMovHeight to the (movHeight/ratioHeight)
+			end if
+
 			tell the slide slide_number
-				set thisMovie to make new image with properties {file:alias mov_file}
+				set thisMovie to make new image with properties {file:alias mov_file, width:newMovWidth, height:newMovHeight}
 				tell thisMovie
-					set position to {(docWidth - width) div 2, (docHeight - height) div 2}
+					set position to {(docWidth - width) div 2, (((docHeight - 105) - height) div 2) + 80}
 					set repetition method to loop
 				end tell
 
