@@ -87,7 +87,7 @@ def create_html_slides(input_pdf_path, target_dir, src_dir, assets_dir, movie_di
                 assets_dir, movie_dict[i+1].split('/')[-1]))
             h = mov.get(cv2.CAP_PROP_FRAME_HEIGHT)
             w = mov.get(cv2.CAP_PROP_FRAME_WIDTH)
-            if w/4. >= h/3.:
+            if w >= h:
                 html_insert += '<video preload="auto" width="100%" data-setup="{}" autoplay loop controls><source src="' + \
                     os.path.join(
                         assets_dir, movie_dict[i+1].split('/')[-1]) + '" /></video>\n'
