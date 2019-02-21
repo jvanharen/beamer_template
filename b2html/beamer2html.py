@@ -85,18 +85,16 @@ def create_html_slides(input_pdf_path, target_dir, src_dir, assets_dir, movie_di
         if i+1 in movie_dict:
             mov = cv2.VideoCapture(os.path.join(
                 assets_dir, movie_dict[i+1].split('/')[-1]))
-            h = mov.get(cv2.CAP_PROP_FRAME_HEIGHT)
-            w = mov.get(cv2.CAP_PROP_FRAME_WIDTH)
-            if w >= h:
-                html_insert += '<video preload="auto" width="100%" data-setup="{}" autoplay loop controls><source src="' + \
-                    os.path.join(
-                        assets_dir, movie_dict[i+1].split('/')[-1]) + '" /></video>\n'
+            docHeight = 550.
+            docWidth = 900.
+            movHeight = mov.get(cv2.CAP_PROP_FRAME_HEIGHT)
+            movWidth = mov.get(cv2.CAP_PROP_FRAME_WIDTH)
+            ratioHeight = movHeight/docHeight
+            ratioWidth = movWidth/docWidth
+            if ratioWidth >= ratioHeight:
+                html_insert += '<video preload="auto" width="' + str(movWidth/ratioWidth) + '" height="' + str(movHeight/ratioWidth) + '" data-setup="{}" autoplay loop controls><source src="' + os.path.join(assets_dir, movie_dict[i+1].split('/')[-1]) + '" /></video>\n'
             else:
-                html_insert += '<video preload="auto" width="auto" height="' + \
-                    str(768*0.7) + '"  data-setup="{}" autoplay loop controls><source src="' + \
-                    os.path.join(
-                        assets_dir, movie_dict[i+1].split('/')[-1]) + '" /></video>\n'
-
+                html_insert += '<video preload="auto" width="' + str(movWidth/ratioHeight) + '" height="' + str(movHeight/ratioHeight) + '" data-setup="{}" autoplay loop controls><source src="' + os.path.join(assets_dir, movie_dict[i+1].split('/')[-1]) + '" /></video>\n'
         html_insert += "---\n"
     html_insert += 'background-image: url(' + assets_dir + '/' + \
         str(nbr).rjust(4, '0') + '.jpg)\n'
