@@ -1,4 +1,5 @@
 import os
+import cv2
 import glob
 import shutil
 import argparse
@@ -77,14 +78,25 @@ def create_html_slides(input_pdf_path, target_dir, src_dir, assets_dir, movie_di
     for m in movie_dict:
         shutil.copyfile(os.path.join(src_dir, movie_dict[m]), os.path.join(
             assets_dir, movie_dict[m].split('/')[-1]))
-    html_insert = "\n"
+    html_insert = ""
     for i in range(nbr):
-        html_insert += 'class: center, middle\nbackground-image: url(' + assets_dir + '/' + \
+        html_insert += 'class: center middle\nbackground-image: url(' + assets_dir + '/' + \
             str(i).rjust(4, '0') + '.jpg)\n'
         if i+1 in movie_dict:
-            html_insert += '<video preload="auto" width="100%" height="auto"  data-setup="{}" autoplay loop controls><source src="' + \
-                os.path.join(assets_dir, movie_dict[i+1].split(
-                    '/')[-1]) + '" /></video>\n'
+            mov = cv2.VideoCapture(os.path.join(
+                assets_dir, movie_dict[i+1].split('/')[-1]))
+            h = mov.get(cv2.CAP_PROP_FRAME_HEIGHT)
+            w = mov.get(cv2.CAP_PROP_FRAME_WIDTH)
+            if w/4. >= h/3.:
+                html_insert += '<video preload="auto" width="100%" data-setup="{}" autoplay loop controls><source src="' + \
+                    os.path.join(
+                        assets_dir, movie_dict[i+1].split('/')[-1]) + '" /></video>\n'
+            else:
+                html_insert += '<video preload="auto" width="auto" height="' + \
+                    str(768*0.7) + '"  data-setup="{}" autoplay loop controls><source src="' + \
+                    os.path.join(
+                        assets_dir, movie_dict[i+1].split('/')[-1]) + '" /></video>\n'
+
         html_insert += "---\n"
     html_insert += 'background-image: url(' + assets_dir + '/' + \
         str(nbr).rjust(4, '0') + '.jpg)\n'
@@ -109,7 +121,6 @@ parser.add_argument('--src-dir', dest='src',  metavar='Sources directory',
 parser.add_argument('--assets-dir', dest='assets',  metavar='Assets directory',
                     required=True, help='Assets directory.')
 
-                    
 
 args = parser.parse_args()
 split_pdf_pages_and_convert_jpg(args.beamer, args.tmp)
